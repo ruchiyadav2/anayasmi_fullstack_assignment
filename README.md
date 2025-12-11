@@ -39,3 +39,15 @@ Clean Modular Structure
 Angular code is inside frontend/angular-app/ because this is a multi-project structure.
 
 Ensure MongoDB is running before starting backend.
+
+## ⚙️ How to Run the Project
+### Start the Backend
+1. cd backend
+2. npm install
+3. node server.js
+
+### Start the Angular Frontend
+1. cd frontend/angular-app/anayasmiFrontend
+2. npm install
+3. ng serve
+
