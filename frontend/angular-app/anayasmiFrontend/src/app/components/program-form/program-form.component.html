@@ -1,0 +1,82 @@
+<!-- Centered container -->
+<div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 112px);">
+  <div class="card col-12 col-md-6">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">{{ id ? 'Update Program' : 'Add New Program' }}</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="submit()" #programForm="ngForm" enctype="multipart/form-data" novalidate>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label class="form-label">Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [(ngModel)]="programData.name" name="name" required>
+          <div class="text-danger mt-1" *ngIf="programForm.submitted && !programData.name">
+            Program name is required.
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" [(ngModel)]="programData.description" name="description" rows="3"></textarea>
+        </div>
+
+        <!-- Start and End Dates -->
+        <div class="mb-3 row">
+          <div class="col-md-6">
+            <label class="form-label">Start Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" [(ngModel)]="programData.startDate" name="startDate" required>
+            <div class="text-danger mt-1" *ngIf="programForm.submitted && !programData.startDate">
+              Start date is required.
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">End Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" [(ngModel)]="programData.endDate" name="endDate" required>
+            <div class="text-danger mt-1" *ngIf="programForm.submitted && !programData.endDate">
+              End date is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget -->
+        <div class="mb-3">
+          <label class="form-label">Budget <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" [(ngModel)]="programData.budget" name="budget" min="0" required>
+          <div class="text-danger mt-1" *ngIf="programForm.submitted && (programData.budget === null || programData.budget < 0)">
+            Please enter a valid budget.
+          </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="mb-3">
+          <label class="form-label">File Upload</label>
+
+          <!-- Show existing uploaded file -->
+          <div *ngIf="programData.file && !selectedFile" class="mb-1">
+            Current file: 
+            <a [href]="'http://localhost:5001/uploads/' + programData.file" target="_blank">
+              {{ programData.file }}
+            </a>
+          </div>
+
+          <!-- File input -->
+          <input type="file" class="form-control" (change)="onFileChange($event)">
+
+          <!-- Show newly selected file -->
+          <div *ngIf="selectedFile" class="mt-1 text-muted">
+            Selected file: {{ selectedFile.name }}
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <button type="submit" class="btn btn-success" [disabled]="loading">
+          {{ loading ? (id ? 'Updating...' : 'Adding...') : (id ? 'Update' : 'Add') }}
+        </button>
+        <a class="btn btn-danger ms-2" routerLink="/dashboard">Cancel</a>
+
+      </form>
+    </div>
+  </div>
+</div>

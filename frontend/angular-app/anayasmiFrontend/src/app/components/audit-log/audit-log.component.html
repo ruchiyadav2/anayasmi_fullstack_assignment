@@ -1,0 +1,54 @@
+<div class="container mt-4">
+
+  <!-- Back Button -->
+  <a class="btn btn-warning mb-3" routerLink="/dashboard">
+    &larr; Back to Programs
+  </a>
+
+  <h2 class="mb-3 text-danger">Audit Logs</h2>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Audit Logs Table -->
+  <div *ngIf="!loading && !error" class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-secondary">
+        <tr>
+          <th>User</th>
+          <th>Action</th>
+          <th>Program Name</th>
+          <th>Deleted At</th>
+          <th>File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.user }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.name }}</td>
+          <td>{{ log.deletedAt | date:'short' }}</td>
+          <td>
+            <a *ngIf="log.file" [href]="'http://localhost:5001/uploads/' + log.file" target="_blank">
+              <i class="bi bi-file-earmark-text"></i> View File
+            </a>
+            <span *ngIf="!log.file">-</span>
+          </td>
+        </tr>
+        <tr *ngIf="logs.length === 0">
+          <td colspan="5" class="text-center">No audit logs found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
